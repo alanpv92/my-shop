@@ -75,6 +75,9 @@ class _AuthBoxState extends State<AuthBox> {
                   child: TextButton(
                       onPressed: () {
                         setState(() {
+                          _emailEditingController.clear();
+                          _passwordEditingController.clear();
+                          _userNameController.clear();
                           isReg = !isReg;
                         });
                       },
