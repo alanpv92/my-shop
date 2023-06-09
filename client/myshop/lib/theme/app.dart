@@ -11,6 +11,7 @@ class AppTheme {
   final ColorManager colorManager;
   AppTheme({required this.colorManager});
   ThemeData getLightTheme() => ThemeData.light().copyWith(
-        primaryColor: colorManager.primaryColor,
-      );
+      primaryColor: colorManager.primaryColor,
+      textTheme: const TextTheme(
+          labelMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)));
 }
