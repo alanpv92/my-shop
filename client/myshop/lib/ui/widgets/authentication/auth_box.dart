@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myshop/managers/text.dart';
 import 'package:myshop/models/custom_form.dart';
 import 'package:myshop/ui/widgets/common/custom%20form/custom_form.dart';
 
@@ -34,6 +35,7 @@ class _AuthBoxState extends State<AuthBox> {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return LayoutBuilder(
       builder: (context, constraints) {
         return SizedBox(
@@ -49,19 +51,24 @@ class _AuthBoxState extends State<AuthBox> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 30),
                       child: CustomForm(
-                          buttonText: isReg ? "Register" : "Login",
+                          formAction: () {
+                            //logic to call notifier
+                          },
+                          buttonText: isReg
+                              ? TextManger.instance.register
+                              : TextManger.instance.login,
                           formData: [
                             if (isReg)
                               CustomFormModel(
                                   controller: _userNameController,
-                                  hintText: "username"),
+                                  hintText: TextManger.instance.userNameHint),
                             CustomFormModel(
                                 controller: _emailEditingController,
-                                hintText: "email"),
+                                hintText: TextManger.instance.emailHint),
                             CustomFormModel(
                                 controller: _passwordEditingController,
                                 isPass: true,
-                                hintText: "password"),
+                                hintText: TextManger.instance.passwordHint),
                           ]),
                     )),
                 Align(
@@ -72,8 +79,16 @@ class _AuthBoxState extends State<AuthBox> {
                         });
                       },
                       child: isReg
-                          ? const Text('Already Have An Account?')
-                          : const Text("dont Have an Account?")),
+                          ? Text(
+                              TextManger.instance.loginRedirect,
+                              style: textTheme.headlineSmall
+                                  ?.copyWith(fontWeight: FontWeight.w700),
+                            )
+                          : Text(
+                              TextManger.instance.registerRedirect,
+                              style: textTheme.headlineSmall
+                                  ?.copyWith(fontWeight: FontWeight.w700),
+                            )),
                 )
               ],
             ));

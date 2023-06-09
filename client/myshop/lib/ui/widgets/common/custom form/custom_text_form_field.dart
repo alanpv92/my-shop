@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myshop/managers/text.dart';
 import 'package:myshop/models/custom_form.dart';
 
 class CustomTextFormField extends StatefulWidget {
@@ -22,6 +23,12 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     return TextFormField(
       obscureText: widget.data.isPass ? !isPassVisible : false,
       controller: widget.data.controller,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return TextManger.instance.formEmptyValidation;
+        }
+        return null;
+      },
       style: const TextStyle(color: Colors.black),
       decoration: InputDecoration(
           filled: true,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myshop/managers/text.dart';
 import 'package:myshop/ui/widgets/authentication/auth_box.dart';
 
 class AuthenticationScreen extends StatelessWidget {
@@ -6,28 +7,25 @@ class AuthenticationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SafeArea(
           child: SizedBox(
         width: double.infinity,
         child: Column(
           children: [
-            Expanded(child: SizedBox()),
+            const Expanded(child: SizedBox()),
             Expanded(
               flex: 4,
               child: Column(
                 children: [
                   Text(
-                    "My Shop",
-                    style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 50,
-                        fontWeight: FontWeight.w800),
+                    TextManger.instance.appName,
+                    style:Theme.of(context).textTheme.headlineLarge,
                   ),
-                  SizedBox(
+                 const SizedBox(
                     height: 20,
                   ),
-                  Expanded(child: AuthBox()),
+                 const Expanded(child: AuthBox()),
                 ],
               ),
             )
