@@ -1,8 +1,9 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Post, Req } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { RegisterUserDto } from "./Dto/register.user";
 import { LoginUserDto } from "./Dto/login.user";
 import { Public } from "src/decorators/public";
+import { Request } from "express";
 
 
 
@@ -23,7 +24,7 @@ export class AuthController{
     }
 
    @Post("/refresh")
-   refreshUserTokens(){
-
+   refreshUserTokens(@Req() req:Request){
+      return this.authService.refreshTokens(req.headers.authorization)
    }
 }

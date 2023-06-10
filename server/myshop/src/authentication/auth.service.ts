@@ -94,4 +94,31 @@ export class AuthService {
       return new HttpException('something went wrong', 500);
     }
   }
+
+
+  async refreshTokens(authHeader:String){
+   try{
+    if(!authHeader){
+      throw new HttpException("refresh token is not present",400);
+      
+    }
+    const token=authHeader.split(' ')[1];
+      const decodedToken=this.jwt.verify(token);
+     
+      if(decodedToken){
+         return{
+            status:'sucess',
+            data:{
+               status:"sucess",
+               data:this.generateTokens({id:decodedToken.id,email:decodedToken.email})
+            }
+         }
+      }
+   }catch(e){
+      return {
+         status:"failure",
+         message:"invaild refresh token"
+      }
+   }
+  }
 }
