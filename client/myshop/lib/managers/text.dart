@@ -6,6 +6,10 @@ mixin ValidationText {
   final String formEmptyValidation = "This Field Cannot Be Empty";
 }
 
+mixin NetworkErrorText {
+  final String unKnownError = 'something went wrong';
+}
+
 mixin AuthText {
   final String register = "Register";
   final String login = "Login";
@@ -17,7 +21,7 @@ mixin AuthText {
   final String emailHint = 'Email';
 }
 
-class TextManger with AuthText, CommonText,ValidationText {
+class TextManger with AuthText, CommonText, ValidationText,NetworkErrorText {
   TextManger._();
   static TextManger instance = TextManger._();
   factory TextManger() => instance;

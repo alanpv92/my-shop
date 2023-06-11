@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myshop/models/custom_form.dart';
+import 'package:myshop/data/models/custom_form.dart';
 import 'package:myshop/ui/widgets/common/custom%20form/custom_text_form_field.dart';
 
 class CustomForm extends StatelessWidget {
