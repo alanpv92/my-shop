@@ -5,6 +5,11 @@ class UserModel {
 
   UserModel({required this.email, required this.id, required this.userName});
 
+  factory UserModel.fromMap(Map<String, dynamic> data) => UserModel(
+      email: data['email'], id: data['id'], userName: data['user_name']);
+
+      
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
