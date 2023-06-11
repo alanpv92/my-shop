@@ -4,6 +4,9 @@ import 'package:myshop/data/interfaces/network/app.dart';
 import 'package:myshop/utilities/custom_functions.dart';
 
 class AppNetworkService implements AppNetworkInterface {
+  AppNetworkService._();
+  static AppNetworkService instance = AppNetworkService._();
+  factory AppNetworkService() => instance;
   final Dio _dio = Dio();
   final CustomFunctions _customFunctions = CustomFunctions.instance;
   @override
