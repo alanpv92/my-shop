@@ -41,7 +41,7 @@ export class AuthService {
       });
 
       if (isUserPresent) {
-        return new HttpException('user already registred', 400);
+        throw new HttpException('user already registred', 400);
       }
 
       const hashedPassword = await this.hashData(userData.password);
@@ -63,8 +63,10 @@ export class AuthService {
           ...this.generateTokens({ id: userModel.id, email: userModel.email }),
         },
       };
-    } catch {
-      return new HttpException('something went wrong', 500);
+    } catch (e) {
+      const errorText=e.message||'something went wrong';
+      const status=e.status||500;
+      throw new HttpException(errorText,status)
     }
   }
 
@@ -74,7 +76,7 @@ export class AuthService {
         email: Equal(userData.email),
       });
       if (!user) {
-        return new HttpException('user has not yet registred', 400);
+        throw new HttpException('user has not yet registred', 400);
       }
       const isPasswordOk = bcrypt.compare(
         userData.password as string,
@@ -90,8 +92,10 @@ export class AuthService {
           ...this.generateTokens({ id: user.id, email: user.email }),
         },
       };
-    } catch {
-      return new HttpException('something went wrong', 500);
+    } catch (e) {
+      const errorText=e.message||'something went wrong';
+      const status=e.status||500;
+      throw new HttpException(errorText,status);
     }
   }
 
