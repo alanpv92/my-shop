@@ -2,11 +2,16 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:myshop/data/models/authentication%20data/login.dart';
+import 'package:myshop/services/authentication/app.dart';
 import 'package:myshop/theme/app.dart';
 import 'package:myshop/ui/screen/authentication.dart';
 
-void main(List<String> args) {
+void main(List<String> args) async {
+  final data = await AppAuthenticationService.instance.loginUser(
+      loginAuthenticationDataModel: LoginAuthenticationDataModel(
+          email: 'ala1n@gmail.com', password: 'qwerty'));
+  log(data.toString());
   runApp(const ProviderScope(child: MyApp()));
 }
 
