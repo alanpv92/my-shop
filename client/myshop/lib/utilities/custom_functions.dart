@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:myshop/data/custom%20types/types.dart';
@@ -13,7 +15,7 @@ class CustomFunctions {
       Function dioFunction) async {
     try {
       final Map<String, dynamic> responeseData = await dioFunction();
-      return right(responeseData);
+      return right(responeseData['data']);
     } on DioException catch (e) {
       return left(AppNetworkException(
           message: TextManger.instance.unKnownError, statusCode: 500));
