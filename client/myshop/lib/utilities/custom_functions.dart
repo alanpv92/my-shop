@@ -11,16 +11,21 @@ class CustomFunctions {
   static CustomFunctions instance = CustomFunctions._();
   factory CustomFunctions() => instance;
 
-  Future<AppNetworkResponse>  networkTryCatchUsingDio(
+  Future<AppNetworkResponse> networkTryCatchUsingDio(
       Function dioFunction) async {
     try {
       final Map<String, dynamic> responeseData = await dioFunction();
       log("response data is $responeseData");
-        
+
       return right(responeseData['data']);
     } on DioException catch (e) {
-      log('dio error is being called');
-      log(e.response?.data);
+      if (e.response != null && e.response!.data != null) {
+        return left(AppNetworkException(
+            message: e.response!.data['message'],
+            statusCode: e.response!.statusCode ?? 500));
+      }
+
+
       return left(AppNetworkException(
           message: TextManger.instance.unKnownError, statusCode: 500));
     } catch (e) {

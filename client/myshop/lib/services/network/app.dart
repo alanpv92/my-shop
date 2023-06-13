@@ -1,4 +1,4 @@
-
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:myshop/data/custom%20types/types.dart';
@@ -25,6 +25,7 @@ class AppNetworkService implements AppNetworkInterface {
       {required String path, Map<String, dynamic> data = const {}}) async {
     return await _customFunctions.networkTryCatchUsingDio(() async {
       final response = await _dio.get(path, data: data);
+
       return response.data as Map<String, dynamic>;
     });
   }
@@ -43,8 +44,8 @@ class AppNetworkService implements AppNetworkInterface {
       {required String path, Map<String, dynamic> data = const {}}) async {
     return await _customFunctions.networkTryCatchUsingDio(() async {
       final response = await _dio.post(path, data: data);
-      
-      return response.data as Map<String, dynamic>;
+;
+      return response.data['data'] as Map<String, dynamic>;
     });
   }
 }
