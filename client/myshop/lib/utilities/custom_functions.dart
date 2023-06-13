@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -15,9 +15,8 @@ class CustomFunctions {
       Function dioFunction) async {
     try {
       final Map<String, dynamic> responeseData = await dioFunction();
-      log("response data is $responeseData");
 
-      return right(responeseData['data']);
+      return right(responeseData);
     } on DioException catch (e) {
       if (e.response != null && e.response!.data != null) {
         return left(AppNetworkException(
@@ -25,11 +24,9 @@ class CustomFunctions {
             statusCode: e.response!.statusCode ?? 500));
       }
 
-
       return left(AppNetworkException(
           message: TextManger.instance.unKnownError, statusCode: 500));
     } catch (e) {
-      log("random error is being called ");
       return left(AppNetworkException(
           message: TextManger.instance.unKnownError, statusCode: 500));
     }

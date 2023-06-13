@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myshop/controllers/authentication.dart';
+import 'package:myshop/data/models/authentication%20data/login.dart';
+import 'package:myshop/data/models/authentication%20data/registration.dart';
 import 'package:myshop/managers/text.dart';
 import 'package:myshop/data/models/custom_form.dart';
 import 'package:myshop/ui/widgets/common/custom%20form/custom_form.dart';
@@ -48,29 +52,56 @@ class _AuthBoxState extends State<AuthBox> {
                         borderRadius: BorderRadius.circular(20),
                         borderSide: BorderSide.none),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 30),
-                      child: CustomForm(
-                          formAction: () {
-                            //logic to call notifier
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 30),
+                        child: Consumer(
+                          builder: (context, ref, child) {
+                            final isLoading =
+                                ref.watch(authControllerProvider).isLoading;
+                            return CustomForm(
+                                isLoading: isLoading,
+                                formAction: () {
+                                  if (isReg) {
+                                    ref
+                                        .read(authControllerProvider.notifier)
+                                        .registerUser(
+                                            RegistrationAuthenticationModel(
+                                                userName:
+                                                    _userNameController.text,
+                                                email: _emailEditingController
+                                                    .text,
+                                                password:
+                                                    _passwordEditingController
+                                                        .text));
+                                  } else {
+                                    ref
+                                        .read(authControllerProvider.notifier)
+                                        .loginUser(LoginAuthenticationDataModel(
+                                            email: _emailEditingController.text,
+                                            password: _passwordEditingController
+                                                .text));
+                                  }
+                                },
+                                buttonText: isReg
+                                    ? TextManger.instance.register
+                                    : TextManger.instance.login,
+                                formData: [
+                                  if (isReg)
+                                    CustomFormModel(
+                                        controller: _userNameController,
+                                        hintText:
+                                            TextManger.instance.userNameHint),
+                                  CustomFormModel(
+                                      controller: _emailEditingController,
+                                      hintText: TextManger.instance.emailHint),
+                                  CustomFormModel(
+                                      controller: _passwordEditingController,
+                                      isPass: true,
+                                      hintText:
+                                          TextManger.instance.passwordHint),
+                                ]);
                           },
-                          buttonText: isReg
-                              ? TextManger.instance.register
-                              : TextManger.instance.login,
-                          formData: [
-                            if (isReg)
-                              CustomFormModel(
-                                  controller: _userNameController,
-                                  hintText: TextManger.instance.userNameHint),
-                            CustomFormModel(
-                                controller: _emailEditingController,
-                                hintText: TextManger.instance.emailHint),
-                            CustomFormModel(
-                                controller: _passwordEditingController,
-                                isPass: true,
-                                hintText: TextManger.instance.passwordHint),
-                          ]),
-                    )),
+                        ))),
                 Align(
                   child: TextButton(
                       onPressed: () {

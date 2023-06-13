@@ -6,11 +6,12 @@ class CustomForm extends StatelessWidget {
   final List<CustomFormModel> formData;
   final String buttonText;
   final Function? formAction;
-   CustomForm(
+  final bool isLoading;
+  CustomForm(
       {super.key,
       required this.formData,
       required this.buttonText,
-      this.formAction});
+      this.formAction,this.isLoading=false});
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -32,14 +33,15 @@ class CustomForm extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          SizedBox(
+         isLoading?const Center(child: CircularProgressIndicator(),) : SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
                   onPressed: () {
-                    if (formAction != null&&_formKey.currentState!.validate()) {
+                    if (formAction != null &&
+                        _formKey.currentState!.validate()) {
                       formAction!();
                     }
                   },

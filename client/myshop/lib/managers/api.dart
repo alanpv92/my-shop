@@ -6,6 +6,6 @@ class ApiManager {
 }
 
 class ApiPath {
-  static String authRegistrationPath = '${ApiManager.baseURL}auth/registration';
+  static String authRegistrationPath = '${ApiManager.baseURL}auth/register';
   static String authLoginPath = '${ApiManager.baseURL}auth/login';
 }
