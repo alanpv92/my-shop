@@ -6,7 +6,6 @@ import {
   HttpException,
 } from '@nestjs/common';
 
-import { ValidationError } from 'class-validator';
 import { Response } from 'express';
 
 @Catch()
@@ -16,7 +15,6 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
 
     if (exception instanceof HttpException) {
-      // Handle specific HTTP exceptions
       const status = exception.getStatus();
       const message = exception.message;
       if (exception instanceof BadRequestException) {
