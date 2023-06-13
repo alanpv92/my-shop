@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myshop/data/models/authentication%20data/login.dart';
 import 'package:myshop/data/models/authentication%20data/registration.dart';
 import 'package:myshop/services/authentication/app.dart';
+import 'package:myshop/utilities/error_toast.dart';
 
 final authControllerProvider =
     StateNotifierProvider<AuthenticationNotifer, AuthenticationState>(
@@ -46,7 +47,7 @@ class AuthenticationNotifer extends StateNotifier<AuthenticationState> {
     final authResponse = await _appAuthenticationService.loginUser(
         loginAuthenticationDataModel: loginAuthenticationDataModel);
     authResponse.fold((l) {
-      log("error is ${l.message}");
+      ErrorToast(l.message).showError();
       state = state.copyWith(isAuthenticated: false, isLoading: false);
     }, (r) {
       state = state.copyWith(isAuthenticated: true, isLoading: false);
@@ -60,7 +61,7 @@ class AuthenticationNotifer extends StateNotifier<AuthenticationState> {
         registrationAuthenticationModel: registrationAuthenticationModel);
 
     authResponse.fold((l) {
-      log("error is ${l.message}");
+          ErrorToast(l.message).showError();
       state = state.copyWith(isAuthenticated: false, isLoading: false);
     }, (r) {
       state = state.copyWith(isAuthenticated: true, isLoading: false);

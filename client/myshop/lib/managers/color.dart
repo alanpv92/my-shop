@@ -5,4 +5,5 @@ final colorManagerProvider = Provider((ref) => ColorManager());
 
 class ColorManager {
   final Color primaryColor = Colors.blue;
+  
 }
