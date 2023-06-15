@@ -1,6 +1,10 @@
+import 'package:dartz/dartz.dart';
+import 'package:myshop/data/custom%20types/types.dart';
+import 'package:myshop/data/exceptions/app.dart';
 import 'package:myshop/data/interfaces/storage/user.dart';
 import 'package:myshop/data/models/storage/user.dart';
 import 'package:myshop/managers/storage_keys.dart';
+import 'package:myshop/managers/text.dart';
 import 'package:myshop/services/storage/app.dart';
 
 class UserAppStorage implements UserAppStorageInterface {
@@ -16,24 +20,39 @@ class UserAppStorage implements UserAppStorageInterface {
     await _appStorageService.writeData(
         key: AppStorageKeys.userName, data: userAppStorageModel.userName);
     return true;
+  }
 
-    // final userNameWriteRes = await _appStorageService.writeData(
-    //     key: AppStorageKeys.userName, data: userAppStorageModel.userName);
+  @override
+  Future clearUserData() async {
+    await _appStorageService.deleteData(key: AppStorageKeys.accessToken);
+    await _appStorageService.deleteData(key: AppStorageKeys.refreshToken);
+    await _appStorageService.deleteData(key: AppStorageKeys.userName);
+  }
 
-    // return await userNameWriteRes.fold((l) {
-    //   return false;
-    // }, (r) async {
-    //   final accessTokenWriteRes = await _appStorageService.writeData(
-    //       key: AppStorageKeys.accessToken,
-    //       data: userAppStorageModel.accessToken);
-    //   return await accessTokenWriteRes.fold((l) {
-    //     return false;
-    //   }, (r) async {
-    //     final refreshTokenWriteRes = await _appStorageService.writeData(
-    //         key: AppStorageKeys.refreshToken,
-    //         data: userAppStorageModel.refreshToken);
-    //     return refreshTokenWriteRes.fold((l) => false, (r) => true);
-    //   });
-    // });
+  @override
+  Future<UserAppStorageResponse> getUserData() async {
+    final accessTokenReadResponse =
+        await _appStorageService.getData(key: AppStorageKeys.accessToken);
+
+    return await accessTokenReadResponse.fold((l) {
+      return left(AppException(TextManger.instance.unKnownError));
+    }, (accessToken) async {
+      final refreshTokenReadResponse =
+          await _appStorageService.getData(key: AppStorageKeys.refreshToken);
+      return await refreshTokenReadResponse.fold((l) {
+        return left(AppException(TextManger.instance.unKnownError));
+      }, (refreshToken) async {
+        final userNameReadResponse =
+            await _appStorageService.getData(key: AppStorageKeys.userName);
+        return userNameReadResponse.fold((l) {
+          return left(AppException(TextManger.instance.unKnownError));
+        }, (userName) {
+          return right(UserAppStorageModel(
+              accessToken: accessToken!,
+              refreshToken: refreshToken!,
+              userName: userName!));
+        });
+      });
+    });
   }
 }
