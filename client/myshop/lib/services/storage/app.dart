@@ -7,6 +7,9 @@ import 'package:myshop/data/interfaces/storage/app.dart';
 import 'package:myshop/managers/text.dart';
 
 class AppStorageService implements AppStorageInterface {
+  AppStorageService._();
+  static AppStorageService instance = AppStorageService._();
+  factory AppStorageService() => instance;
   final FlutterSecureStorage _flutterSecureStorage =
       const FlutterSecureStorage();
   @override

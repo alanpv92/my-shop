@@ -64,6 +64,7 @@ class AuthenticationNotifer extends StateNotifier<AuthenticationState> {
           ErrorToast(l.message).showError();
       state = state.copyWith(isAuthenticated: false, isLoading: false);
     }, (r) {
+      
       state = state.copyWith(isAuthenticated: true, isLoading: false);
     });
   }
