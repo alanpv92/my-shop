@@ -1,9 +1,12 @@
-
+import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myshop/data/models/authentication%20data/login.dart';
 import 'package:myshop/data/models/authentication%20data/registration.dart';
+import 'package:myshop/data/models/storage/user.dart';
 import 'package:myshop/services/authentication/app.dart';
+import 'package:myshop/services/storage/user.dart';
+
 import 'package:myshop/utilities/error_toast.dart';
 
 final authControllerProvider =
@@ -41,15 +44,22 @@ class AuthenticationNotifer extends StateNotifier<AuthenticationState> {
   final AppAuthenticationService _appAuthenticationService =
       AppAuthenticationService.instance;
 
+  final UserAppStorageService _userAppStorageService = UserAppStorageService();
+
   Future loginUser(
       LoginAuthenticationDataModel loginAuthenticationDataModel) async {
     state = state.copyWith(isLoading: true);
     final authResponse = await _appAuthenticationService.loginUser(
         loginAuthenticationDataModel: loginAuthenticationDataModel);
-    authResponse.fold((l) {
+    await authResponse.fold((l) {
       ErrorToast(l.message).showError();
       state = state.copyWith(isAuthenticated: false, isLoading: false);
-    }, (r) {
+    }, (usermodel) async {
+      await _userAppStorageService.saveUserDetails(
+          userAppStorageModel: UserAppStorageModel(
+              accessToken: usermodel.accessToken,
+              refreshToken: usermodel.refreshToken,
+              userName: usermodel.userName));
       state = state.copyWith(isAuthenticated: true, isLoading: false);
     });
   }
@@ -60,11 +70,15 @@ class AuthenticationNotifer extends StateNotifier<AuthenticationState> {
     final authResponse = await _appAuthenticationService.registerUser(
         registrationAuthenticationModel: registrationAuthenticationModel);
 
-    authResponse.fold((l) {
-          ErrorToast(l.message).showError();
+    await authResponse.fold((l) {
+      ErrorToast(l.message).showError();
       state = state.copyWith(isAuthenticated: false, isLoading: false);
-    }, (r) {
-      
+    }, (usermodel) async {
+      await _userAppStorageService.saveUserDetails(
+          userAppStorageModel: UserAppStorageModel(
+              accessToken: usermodel.accessToken,
+              refreshToken: usermodel.refreshToken,
+              userName: usermodel.userName));
       state = state.copyWith(isAuthenticated: true, isLoading: false);
     });
   }

@@ -7,7 +7,10 @@ import 'package:myshop/managers/storage_keys.dart';
 import 'package:myshop/managers/text.dart';
 import 'package:myshop/services/storage/app.dart';
 
-class UserAppStorage implements UserAppStorageInterface {
+class UserAppStorageService implements UserAppStorageInterface {
+  UserAppStorageService._();
+  static UserAppStorageService instance = UserAppStorageService._();
+  factory UserAppStorageService() => instance;
   final AppStorageService _appStorageService = AppStorageService();
   @override
   Future<bool> saveUserDetails(

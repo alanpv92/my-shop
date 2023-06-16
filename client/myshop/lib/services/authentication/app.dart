@@ -1,3 +1,4 @@
+import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:myshop/data/custom%20types/types.dart';
@@ -30,7 +31,7 @@ class AppAuthenticationService implements AppAuthenticationInterface {
     return response.fold((l) {
       return left(l);
     }, (r) {
-   
+      log(r.toString());
       return right(UserModel.fromMap(r));
     });
   }
@@ -42,6 +43,7 @@ class AppAuthenticationService implements AppAuthenticationInterface {
     final response = await _appNetworkService.post(
         path: ApiPath.authRegistrationPath,
         data: registrationAuthenticationModel.toMap());
+
     return response.fold((l) {
       return left(l);
     }, (r) => right(UserModel.fromMap(r)));
