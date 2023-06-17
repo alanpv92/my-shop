@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myshop/data/models/authentication%20data/login.dart';
 import 'package:myshop/data/models/authentication%20data/registration.dart';
@@ -84,4 +82,8 @@ class AuthenticationNotifer extends StateNotifier<AuthenticationState> {
   }
 
   Future logOut() async {}
+
+  void authenticateUser() {
+    state = AuthenticationState(isAuthenticated: true, isLoading: false);
+  }
 }
