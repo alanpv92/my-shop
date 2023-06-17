@@ -3,13 +3,19 @@
 import 'package:dio/dio.dart';
 import 'package:myshop/data/custom%20types/types.dart';
 import 'package:myshop/data/interfaces/network/app.dart';
+import 'package:myshop/managers/api.dart';
+import 'package:myshop/services/network/app_interceptor.dart';
 import 'package:myshop/utilities/custom_functions.dart';
 
 class AppNetworkService implements AppNetworkInterface {
   AppNetworkService._();
   static AppNetworkService instance = AppNetworkService._();
   factory AppNetworkService() => instance;
-  final Dio _dio = Dio();
+  final Dio _dio = Dio(
+    BaseOptions(
+      baseUrl: ApiManager.baseURL
+    )
+  )..interceptors.add(AppNetworkInterceptor());
   final CustomFunctions _customFunctions = CustomFunctions.instance;
   @override
   Future<AppNetworkResponse> delete(

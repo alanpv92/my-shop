@@ -48,4 +48,15 @@ class AppAuthenticationService implements AppAuthenticationInterface {
       return left(l);
     }, (r) => right(UserModel.fromMap(r)));
   }
+
+  @override
+  Future refreshToken() async {
+    final response =
+        await _appNetworkService.post(path: ApiPath.authRefreshTokenPath);
+    response.fold((l) {
+      log(l.toString());
+    }, (r) {
+      log(r.toString());
+    });
+  }
 }

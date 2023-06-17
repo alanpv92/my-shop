@@ -13,7 +13,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
   catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-
+    
     if (exception instanceof HttpException) {
       const status = exception.getStatus();
       const message = exception.message;

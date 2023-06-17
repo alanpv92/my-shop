@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:myshop/data/models/authentication%20data/login.dart';
 import 'package:myshop/data/models/authentication%20data/registration.dart';
 import 'package:myshop/data/models/storage/user.dart';
@@ -81,9 +82,16 @@ class AuthenticationNotifer extends StateNotifier<AuthenticationState> {
     });
   }
 
-  Future logOut() async {}
+  Future logOut() async {
+    await _userAppStorageService.clearUserData();
+    state = state.copyWith(isLoading: false, isAuthenticated: false);
+  }
 
   void authenticateUser() {
     state = AuthenticationState(isAuthenticated: true, isLoading: false);
+  }
+
+  Future refreshToken() async {
+    await _appAuthenticationService.refreshToken();
   }
 }

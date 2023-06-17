@@ -58,4 +58,35 @@ class UserAppStorageService implements UserAppStorageInterface {
       });
     });
   }
+
+  @override
+  Future<String> getAccessToken() async {
+    final accessToken =
+        await _appStorageService.getData(key: AppStorageKeys.accessToken);
+    return accessToken.fold((l) {
+      return '';
+    }, (r) {
+      return r!;
+    });
+  }
+
+  @override
+  Future<String> getRefreshToken() async {
+    final accessToken =
+        await _appStorageService.getData(key: AppStorageKeys.refreshToken);
+    return accessToken.fold((l) {
+      return '';
+    }, (r) {
+      return r!;
+    });
+  }
+
+  @override
+  Future updateTokens(
+      {required String accessToken, required String refreshToken})async {
+   await _appStorageService.writeData(
+        key: AppStorageKeys.accessToken, data: accessToken);
+  await  _appStorageService.writeData(
+        key: AppStorageKeys.refreshToken, data: refreshToken);
+  }
 }

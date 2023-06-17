@@ -8,4 +8,9 @@ abstract class UserAppStorageInterface {
   Future<UserAppStorageResponse> getUserData();
 
   Future clearUserData();
+
+  Future<String> getAccessToken();
+  Future<String> getRefreshToken();
+  Future updateTokens(
+      {required String accessToken, required String refreshToken});
 }

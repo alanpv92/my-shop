@@ -59,7 +59,7 @@ class AppStateNotifier extends StateNotifier<AppState> {
         if (isRefreshTokenIsExpired) {
           await _authenticationNotifer.logOut();
         } else {
-          //try to refresh token
+          await _authenticationNotifer.refreshToken();
         }
       } else {
         state = state.copywith(
