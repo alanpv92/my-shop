@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:myshop/data/models/authentication%20data/login.dart';
@@ -92,6 +94,15 @@ class AuthenticationNotifer extends StateNotifier<AuthenticationState> {
   }
 
   Future refreshToken() async {
-    await _appAuthenticationService.refreshToken();
+    
+    final tokenRefreshResponse = await _appAuthenticationService.refreshToken();
+    log(tokenRefreshResponse.toString());
+    await tokenRefreshResponse.fold((l) async {
+      await logOut();
+    }, (r) {
+      _userAppStorageService.updateTokens(
+          accessToken: r[0], refreshToken: r[1]);
+      state = state.copyWith(isAuthenticated: true);
+    });
   }
 }

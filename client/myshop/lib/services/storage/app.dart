@@ -28,6 +28,9 @@ class AppStorageService implements AppStorageInterface {
   Future<AppStorageResponse> getData({required String key}) async {
     try {
       final data = await _flutterSecureStorage.read(key: key);
+      if (data == null) {
+        return left(AppException(TextManger.instance.notPresenet));
+      }
       return right(data);
     } on PlatformException catch (_) {
       return left(AppException(TextManger.instance.unKnownError));

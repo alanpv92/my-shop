@@ -9,5 +9,5 @@ abstract class AppAuthenticationInterface {
       {required RegistrationAuthenticationModel
           registrationAuthenticationModel});
   Future logOut();
-  Future refreshToken();
+  Future<AppAuthenticationRefreshTokensResponse> refreshToken();
 }

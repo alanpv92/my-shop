@@ -21,7 +21,11 @@ mixin AuthText {
   final String emailHint = 'Email';
 }
 
-class TextManger with AuthText, CommonText, ValidationText,NetworkErrorText {
+mixin AppStorageText {
+  final String notPresenet = 'Data Is Not Found';
+}
+
+class TextManger with AuthText, CommonText, ValidationText, NetworkErrorText,AppStorageText {
   TextManger._();
   static TextManger instance = TextManger._();
   factory TextManger() => instance;

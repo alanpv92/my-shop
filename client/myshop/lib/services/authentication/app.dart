@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:myshop/data/custom%20types/types.dart';
+import 'package:myshop/data/exceptions/network.dart';
 import 'package:myshop/data/interfaces/authentication/app.dart';
 import 'package:myshop/data/models/authentication%20data/login.dart';
 import 'package:myshop/data/models/authentication%20data/registration.dart';
@@ -50,13 +51,15 @@ class AppAuthenticationService implements AppAuthenticationInterface {
   }
 
   @override
-  Future refreshToken() async {
+  Future<AppAuthenticationRefreshTokensResponse> refreshToken() async {
     final response =
         await _appNetworkService.post(path: ApiPath.authRefreshTokenPath);
-    response.fold((l) {
-      log(l.toString());
+   
+    return response.fold((l) {
+      return left(
+          AppNetworkException(message: l.message, statusCode: l.statusCode));
     }, (r) {
-      log(r.toString());
+      return right([r['data']['accessToken'], r['data']['refreshToken']]);
     });
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:myshop/data/custom%20types/types.dart';
 import 'package:myshop/data/exceptions/app.dart';
@@ -36,19 +38,19 @@ class UserAppStorageService implements UserAppStorageInterface {
   Future<UserAppStorageResponse> getUserData() async {
     final accessTokenReadResponse =
         await _appStorageService.getData(key: AppStorageKeys.accessToken);
-
+    
     return await accessTokenReadResponse.fold((l) {
-      return left(AppException(TextManger.instance.unKnownError));
+      return left(l);
     }, (accessToken) async {
       final refreshTokenReadResponse =
           await _appStorageService.getData(key: AppStorageKeys.refreshToken);
       return await refreshTokenReadResponse.fold((l) {
-        return left(AppException(TextManger.instance.unKnownError));
+        return left(l);
       }, (refreshToken) async {
         final userNameReadResponse =
             await _appStorageService.getData(key: AppStorageKeys.userName);
         return userNameReadResponse.fold((l) {
-          return left(AppException(TextManger.instance.unKnownError));
+          return left(l);
         }, (userName) {
           return right(UserAppStorageModel(
               accessToken: accessToken!,
@@ -83,10 +85,10 @@ class UserAppStorageService implements UserAppStorageInterface {
 
   @override
   Future updateTokens(
-      {required String accessToken, required String refreshToken})async {
-   await _appStorageService.writeData(
+      {required String accessToken, required String refreshToken}) async {
+    await _appStorageService.writeData(
         key: AppStorageKeys.accessToken, data: accessToken);
-  await  _appStorageService.writeData(
+    await _appStorageService.writeData(
         key: AppStorageKeys.refreshToken, data: refreshToken);
   }
 }

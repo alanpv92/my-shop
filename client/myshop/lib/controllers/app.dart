@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myshop/controllers/authentication.dart';
 import 'package:myshop/data/models/storage/user.dart';
+import 'package:myshop/managers/text.dart';
 import 'package:myshop/services/storage/user.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
@@ -48,9 +49,13 @@ class AppStateNotifier extends StateNotifier<AppState> {
   loadAppData() async {
     final userAppStorageRes = await _userAppStorageService.getUserData();
     await userAppStorageRes.fold((l) {
-      //critical error force quit application
+      if (l.message == TextManger.instance.notPresenet) {
+      } else {
+        //critical error
+      }
       log('storage error');
     }, (userAppStorageModel) async {
+      log(userAppStorageModel.accessToken);
       final isAcessTokenIsExpired =
           JwtDecoder.isExpired(userAppStorageModel.accessToken);
       if (isAcessTokenIsExpired) {

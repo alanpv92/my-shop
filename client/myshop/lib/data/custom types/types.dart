@@ -8,6 +8,9 @@ typedef AppNetworkResponse = Either<AppNetworkException, Map<String, dynamic>>;
 
 typedef AppAuthenticationResponse = Either<AppNetworkException, UserModel>;
 
+typedef AppAuthenticationRefreshTokensResponse
+    = Either<AppNetworkException, List<String>>;
+
 typedef AppStorageResponse = Either<AppException, String?>;
 
 typedef UserAppStorageResponse = Either<AppException, UserAppStorageModel>;
