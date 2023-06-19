@@ -27,4 +27,10 @@ export class AuthController{
    refreshUserTokens(@Req() req:Request){
       return this.authService.refreshTokens(req.headers.authorization)
    }
+
+   @Post("/reset")
+   @Public()
+   resetPassword(){
+     
+   }
 }

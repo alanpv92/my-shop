@@ -10,8 +10,10 @@ import { AppGuard } from './guards/app';
 @Module({
   imports: [
     TypeOrmModule.forFeature([userEntity]),
-    JwtModule.register({
-      secret: 'my-secret',
+    JwtModule.registerAsync({
+      useFactory:()=>({
+        secret:process.env.JWT_SECRET
+      })
     }),
   ],
   controllers: [AuthController],
