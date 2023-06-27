@@ -9,4 +9,5 @@ class ApiPath {
   static String authRegistrationPath = 'auth/register';
   static String authLoginPath = 'auth/login';
   static String authRefreshTokenPath = 'auth/refresh';
+  static String authRequestOtpPath = 'auth//reset';
 }

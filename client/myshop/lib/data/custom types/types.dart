@@ -11,6 +11,8 @@ typedef AppAuthenticationResponse = Either<AppNetworkException, UserModel>;
 typedef AppAuthenticationRefreshTokensResponse
     = Either<AppNetworkException, List<String>>;
 
+typedef AppPasswordResetResponse = Either<AppNetworkException, bool>;
+
 typedef AppStorageResponse = Either<AppException, String?>;
 
 typedef UserAppStorageResponse = Either<AppException, UserAppStorageModel>;

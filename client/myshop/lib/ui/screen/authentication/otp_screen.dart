@@ -1,12 +1,13 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:myshop/data/models/authentication%20data/base.dart';
 
 import 'package:myshop/managers/text.dart';
 import 'package:myshop/ui/widgets/authentication/otp_verification_box_container.dart';
 
 class OtpVerificationScreen extends StatelessWidget {
-  const OtpVerificationScreen({super.key});
+  final BaseAuthenticationDataModel baseAuthenticationDataModel;
+  const OtpVerificationScreen(
+      {super.key, required this.baseAuthenticationDataModel});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class OtpVerificationScreen extends StatelessWidget {
             FittedBox(
               fit: BoxFit.scaleDown,
               child: Text(
-                "${TextManger.instance.otpSendEmail} alan@gmail.com",
+                "${TextManger.instance.otpSendEmail} ${baseAuthenticationDataModel.email}",
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
             ),
@@ -49,13 +50,10 @@ class OtpVerificationScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            OtpVerificationBoxContainer(),
+           const OtpVerificationBoxContainer(),
           ],
         ),
       ),
     );
   }
 }
-
-
-

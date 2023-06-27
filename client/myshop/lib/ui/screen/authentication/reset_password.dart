@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/route_manager.dart';
+import 'package:myshop/controllers/authentication.dart';
+import 'package:myshop/data/models/authentication%20data/base.dart';
 import 'package:myshop/data/models/custom_form.dart';
 import 'package:myshop/managers/text.dart';
 import 'package:myshop/ui/screen/authentication/otp_screen.dart';
@@ -61,22 +64,37 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     borderRadius: BorderRadius.circular(20),
                     borderSide: BorderSide.none),
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                  child: CustomForm(
-                      formAction: () {
-                        Get.to(OtpVerificationScreen());
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 30),
+                    child: Consumer(
+                      builder: (context, ref, child) {
+                        return CustomForm(
+                            isLoading: ref.watch(authControllerProvider
+                                .select((value) => value.isLoading)),
+                            formAction: () {
+                              ref
+                                  .read(authControllerProvider.notifier)
+                                  .requestOtp(
+                                      baseAuthenticationDataModel:
+                                          BaseAuthenticationDataModel(
+                                              email:
+                                                  _emailEditingController.text,
+                                              password:
+                                                  _passwordEditingController
+                                                      .text));
+                            },
+                            formData: [
+                              CustomFormModel(
+                                  controller: _emailEditingController,
+                                  hintText: TextManger.instance.emailHint),
+                              CustomFormModel(
+                                  isPass: true,
+                                  controller: _passwordEditingController,
+                                  hintText: TextManger.instance.passwordHint),
+                            ],
+                            buttonText: TextManger.instance.requestOpt);
                       },
-                      formData: [
-                        CustomFormModel(
-                            controller: _emailEditingController,
-                            hintText: TextManger.instance.emailHint),
-                        CustomFormModel(
-                            controller: _passwordEditingController,
-                            hintText: TextManger.instance.passwordHint),
-                      ],
-                      buttonText: TextManger.instance.requestOpt),
-                ),
+                    )),
               )
             ],
           ),

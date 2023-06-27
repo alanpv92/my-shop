@@ -4,10 +4,12 @@ import 'package:dartz/dartz.dart';
 import 'package:myshop/data/custom%20types/types.dart';
 import 'package:myshop/data/exceptions/network.dart';
 import 'package:myshop/data/interfaces/authentication/app.dart';
+import 'package:myshop/data/models/authentication%20data/base.dart';
 import 'package:myshop/data/models/authentication%20data/login.dart';
 import 'package:myshop/data/models/authentication%20data/registration.dart';
 import 'package:myshop/data/models/user.dart';
 import 'package:myshop/managers/api.dart';
+import 'package:myshop/managers/text.dart';
 import 'package:myshop/services/network/app.dart';
 
 class AppAuthenticationService implements AppAuthenticationInterface {
@@ -54,12 +56,21 @@ class AppAuthenticationService implements AppAuthenticationInterface {
   Future<AppAuthenticationRefreshTokensResponse> refreshToken() async {
     final response =
         await _appNetworkService.post(path: ApiPath.authRefreshTokenPath);
-   
+
     return response.fold((l) {
       return left(
           AppNetworkException(message: l.message, statusCode: l.statusCode));
     }, (r) {
       return right([r['data']['accessToken'], r['data']['refreshToken']]);
     });
+  }
+
+  @override
+  Future<AppPasswordResetResponse> requestOtp({required BaseAuthenticationDataModel baseAuthenticationDataModel}) async {
+    final response =
+        await _appNetworkService.post(path: ApiPath.authRequestOtpPath,data:baseAuthenticationDataModel.getEmailMap() );
+    return response.fold((l) {
+      return left(AppNetworkException(message: l.message, statusCode: 500));
+    }, (r) => right(true));
   }
 }

@@ -1,12 +1,15 @@
 import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/route_manager.dart';
+import 'package:myshop/data/models/authentication%20data/base.dart';
 
 import 'package:myshop/data/models/authentication%20data/login.dart';
 import 'package:myshop/data/models/authentication%20data/registration.dart';
 import 'package:myshop/data/models/storage/user.dart';
 import 'package:myshop/services/authentication/app.dart';
 import 'package:myshop/services/storage/user.dart';
+import 'package:myshop/ui/screen/authentication/otp_screen.dart';
 
 import 'package:myshop/utilities/error_toast.dart';
 
@@ -94,9 +97,8 @@ class AuthenticationNotifer extends StateNotifier<AuthenticationState> {
   }
 
   Future refreshToken() async {
-    
     final tokenRefreshResponse = await _appAuthenticationService.refreshToken();
-    log(tokenRefreshResponse.toString());
+
     await tokenRefreshResponse.fold((l) async {
       await logOut();
     }, (r) {
@@ -105,4 +107,24 @@ class AuthenticationNotifer extends StateNotifier<AuthenticationState> {
       state = state.copyWith(isAuthenticated: true);
     });
   }
+
+  Future requestOtp(
+      {required BaseAuthenticationDataModel
+          baseAuthenticationDataModel}) async {
+    state = state.copyWith(isAuthenticated: false, isLoading: true);
+    final requestOtpResult = await _appAuthenticationService.requestOtp(
+      baseAuthenticationDataModel: baseAuthenticationDataModel
+    );
+    requestOtpResult.fold((l) {
+      ErrorToast(l.message).showError();
+      state = state.copyWith(isLoading: false);
+    }, (r) {
+      state = state.copyWith(isLoading: false);
+      Get.to(OtpVerificationScreen(
+        baseAuthenticationDataModel: baseAuthenticationDataModel,
+      ));
+    });
+  }
+
+
 }
