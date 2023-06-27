@@ -16,6 +16,7 @@ export class userEntity {
   passwordHash:String;
   
 
-
+  @Column({nullable:true})
+  otp:String
 
 }

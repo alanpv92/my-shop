@@ -4,6 +4,8 @@ import { RegisterUserDto } from "./Dto/register.user";
 import { LoginUserDto } from "./Dto/login.user";
 import { Public } from "src/decorators/public";
 import { Request } from "express";
+import { ResetPasswordDto } from "./Dto/reset.password";
+import { VerifyOtpForPasswordDto } from "./Dto/verify.otp.password";
 
 
 
@@ -30,7 +32,13 @@ export class AuthController{
 
    @Post("/reset")
    @Public()
-  async resetPassword(){
-   return await  this.authService.resetPassword()
+  async resetPassword(@Body() data:ResetPasswordDto){
+   return  await this.authService.resetPassword(data)
+   }
+
+   @Post("/verify-password-otp")
+   @Public()
+   async verifyOtpForPassword(@Body() data:VerifyOtpForPasswordDto){
+     return await this.authService.verifyOtpForPassword(data);
    }
 }

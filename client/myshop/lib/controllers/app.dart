@@ -53,7 +53,8 @@ class AppStateNotifier extends StateNotifier<AppState> {
       } else {
         //critical error
       }
-      log('storage error');
+
+      log('data not found');
     }, (userAppStorageModel) async {
       log(userAppStorageModel.accessToken);
       final isAcessTokenIsExpired =

@@ -7,7 +7,8 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { LoginUserDto } from './Dto/login.user';
 import { MailService } from 'src/mail/mail.service';
-
+import { ResetPasswordDto } from './Dto/reset.password';
+import { VerifyOtpForPasswordDto } from './Dto/verify.otp.password';
 
 @Injectable()
 export class AuthService {
@@ -15,8 +16,7 @@ export class AuthService {
     @InjectRepository(userEntity)
     private readonly userRepo: Repository<userEntity>,
     private readonly jwt: JwtService,
-    private readonly mailService:MailService,
-
+    private readonly mailService: MailService,
   ) {}
 
   private async hashData(payload: String) {
@@ -68,9 +68,9 @@ export class AuthService {
         },
       };
     } catch (e) {
-      const errorText=e.message||'something went wrong';
-      const status=e.status||500;
-      throw new HttpException(errorText,status)
+      const errorText = e.message || 'something went wrong';
+      const status = e.status || 500;
+      throw new HttpException(errorText, status);
     }
   }
 
@@ -82,10 +82,14 @@ export class AuthService {
       if (!user) {
         throw new HttpException('user has not yet registred', 400);
       }
-      const isPasswordOk = bcrypt.compare(
+      const isPasswordOk =await bcrypt.compare(
         userData.password as string,
         user.passwordHash as string,
       );
+
+      if(!isPasswordOk){
+        throw new HttpException("password is inncorrect",400);
+      }
 
       return {
         status: 'sucess',
@@ -97,62 +101,105 @@ export class AuthService {
         },
       };
     } catch (e) {
-      const errorText=e.message||'something went wrong';
-      const status=e.status||500;
-      throw new HttpException(errorText,status);
+      const errorText = e.message || 'something went wrong';
+      const status = e.status || 500;
+      throw new HttpException(errorText, status);
     }
   }
 
-
-  async refreshTokens(authHeader:String){
-   try{
-    if(!authHeader){
-      throw new HttpException("refresh token is not present",400);
-      
-    }
-    const token=authHeader.split(' ')[1];
-      const decodedToken=this.jwt.verify(token);
-     
-      if(decodedToken){
-         return{
-            status:'sucess',
-            data:{
-               status:"sucess",
-               data:this.generateTokens({id:decodedToken.id,email:decodedToken.email})
-            }
-         }
+  async refreshTokens(authHeader: String) {
+    try {
+      if (!authHeader) {
+        throw new HttpException('refresh token is not present', 400);
       }
-   }catch(e){
+      const token = authHeader.split(' ')[1];
+      const decodedToken = this.jwt.verify(token);
+
+      if (decodedToken) {
+        return {
+          status: 'sucess',
+          data: {
+            status: 'sucess',
+            data: this.generateTokens({
+              id: decodedToken.id,
+              email: decodedToken.email,
+            }),
+          },
+        };
+      }
+    } catch (e) {
       return {
-         status:"failure",
-         message:"invaild refresh token"
-      }
-   }
+        status: 'failure',
+        message: 'invaild refresh token',
+      };
+    }
   }
 
-  async resetPassword(){
-    const otp=this.generateOtp();
-    const hashedOtp=await this.hashData(otp.toString())
-    const user= await this.userRepo.findOneBy({
-      email:Equal("alan@gmail.com")
-    })
-    if(!user){
-      throw new HttpException("no user by this email",400);
+  async resetPassword(data: ResetPasswordDto) {
+    const otp = this.generateOtp();
+    const hashedOtp = await this.hashData(otp.toString());
+    const user = await this.userRepo.findOneBy({
+      email: Equal(data.email),
+    });
+    if (!user) {
+      throw new HttpException('no user by this email', 400);
     }
-//   const otpModel=  this.otpRepo.create({
-//       otpHash:hashedOtp,
-//       user:user
-//     })
-//  const otpRes=  await this.otpRepo.save(otpModel)
+    user.otp = hashedOtp;
+    await this.userRepo.save(user);
 
-    
-    this.mailService.sendMail(
-      {
-        email:"alan@gmail.com",
-        message:"otp",
-        subject:"password reset"
+    this.mailService.sendMail({
+      email: data.email,
+      message: `otp to reset your password is ${otp}`,
+      subject: 'password reset',
+    });
+
+    setTimeout(async () => {
+      user.otp = null;
+      await this.userRepo.save(user);
+    }, 60000*2);
+
+    return {
+      status: 'sucess',
+      data: {
+        message: 'otp send',
+      },
+    };
+  }
+
+  async verifyOtpForPassword(data: VerifyOtpForPasswordDto) {
+    try {
+      const user = await this.userRepo.findOneBy({
+        email: Equal(data.email),
+      });
+
+      if (!user) {
+        throw new HttpException('user not found', 400);
       }
-    )
+      if (!user.otp) {
+        throw new HttpException('otp has expired', 400);
+      }
+      const isOtpVaild = await bcrypt.compare(
+        data.otp as string,
+        user.otp as string,
+      );
+      if (isOtpVaild) {
+        const hashedPassword = await this.hashData(data.newPassword);
+        user.passwordHash = hashedPassword;
+        await this.userRepo.save(user);
+        return {
+          status: 'sucess',
+          data: {
+            message: 'password has been reset',
+          },
+        };
+      } else {
+        throw new HttpException('invalid otp', 400);
+      }
+    } catch (e) {
+      const errorText = e.message || 'something went wrong';
+      const status = e.status || 500;
+      throw new HttpException(errorText, status);
+    }
   }
 
   private generateOtp(): number {
@@ -160,5 +207,4 @@ export class AuthService {
     const max = 999999; // Maximum value (inclusive)
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
-  
 }
