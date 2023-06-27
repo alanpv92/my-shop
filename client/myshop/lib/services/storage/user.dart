@@ -1,12 +1,11 @@
-import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:myshop/data/custom%20types/types.dart';
-import 'package:myshop/data/exceptions/app.dart';
+
 import 'package:myshop/data/interfaces/storage/user.dart';
 import 'package:myshop/data/models/storage/user.dart';
 import 'package:myshop/managers/storage_keys.dart';
-import 'package:myshop/managers/text.dart';
+
 import 'package:myshop/services/storage/app.dart';
 
 class UserAppStorageService implements UserAppStorageInterface {

@@ -25,12 +25,5 @@ class MyApp extends ConsumerWidget {
     theme: ref.read(appThemeProvider).getLightTheme(),
     home:const AppLoaderScreen(),
     );
-    // ref.watch(authControllerProvider.select((value) => value.isAuthenticated));
-    // return MaterialApp(
-    //   theme: ref.read(appThemeProvider).getLightTheme(),
-    //   home: ref.read(authControllerProvider).isAuthenticated
-    //       ? dashScreenWidget
-    //       : authenticationScreenWidget,
-    // );
   }
 }

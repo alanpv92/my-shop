@@ -6,6 +6,8 @@ import { Equal, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { LoginUserDto } from './Dto/login.user';
+import { MailService } from 'src/mail/mail.service';
+
 
 @Injectable()
 export class AuthService {
@@ -13,6 +15,8 @@ export class AuthService {
     @InjectRepository(userEntity)
     private readonly userRepo: Repository<userEntity>,
     private readonly jwt: JwtService,
+    private readonly mailService:MailService,
+
   ) {}
 
   private async hashData(payload: String) {
@@ -21,7 +25,7 @@ export class AuthService {
 
   private generateTokens(payload: { id: Number; email: String }) {
     const accessToken = this.jwt.sign(payload, {
-      expiresIn: '10s',
+      expiresIn: '1d',
     });
     const refreshToken = this.jwt.sign(payload, {
       expiresIn: 60 * 10 * 10,
@@ -125,4 +129,36 @@ export class AuthService {
       }
    }
   }
+
+  async resetPassword(){
+    const otp=this.generateOtp();
+    const hashedOtp=await this.hashData(otp.toString())
+    const user= await this.userRepo.findOneBy({
+      email:Equal("alan@gmail.com")
+    })
+    if(!user){
+      throw new HttpException("no user by this email",400);
+    }
+//   const otpModel=  this.otpRepo.create({
+//       otpHash:hashedOtp,
+//       user:user
+//     })
+//  const otpRes=  await this.otpRepo.save(otpModel)
+
+    
+    this.mailService.sendMail(
+      {
+        email:"alan@gmail.com",
+        message:"otp",
+        subject:"password reset"
+      }
+    )
+  }
+
+  private generateOtp(): number {
+    const min = 100000; // Minimum value (inclusive)
+    const max = 999999; // Maximum value (inclusive)
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  
 }

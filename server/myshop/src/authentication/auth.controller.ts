@@ -30,7 +30,7 @@ export class AuthController{
 
    @Post("/reset")
    @Public()
-   resetPassword(){
-     
+  async resetPassword(){
+   return await  this.authService.resetPassword()
    }
 }

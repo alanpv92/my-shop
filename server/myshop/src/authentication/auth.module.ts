@@ -6,6 +6,8 @@ import { userEntity } from 'src/typeorm/entity/user';
 import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
 import { AppGuard } from './guards/app';
+import { MailService } from 'src/mail/mail.service';
+
 
 @Module({
   imports: [
@@ -23,6 +25,7 @@ import { AppGuard } from './guards/app';
       provide: APP_GUARD,
       useClass: AppGuard,
     },
+    MailService
   ],
 })
 export class AuthModule {}
