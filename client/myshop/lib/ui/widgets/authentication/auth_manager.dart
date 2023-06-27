@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myshop/controllers/authentication.dart';
 
-import '../../screen/authentication.dart';
+import '../../screen/authentication/authentication.dart';
 import '../../screen/dash.dart';
 
 class AuthManager extends ConsumerWidget {

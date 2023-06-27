@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/route_manager.dart';
 import 'package:myshop/controllers/authentication.dart';
 import 'package:myshop/data/models/authentication%20data/login.dart';
 import 'package:myshop/data/models/authentication%20data/registration.dart';
+import 'package:myshop/managers/route.dart';
 import 'package:myshop/managers/text.dart';
 import 'package:myshop/data/models/custom_form.dart';
 import 'package:myshop/ui/widgets/common/custom%20form/custom_form.dart';
@@ -103,27 +105,40 @@ class _AuthBoxState extends State<AuthBox> {
                           },
                         ))),
                 Align(
-                  child: TextButton(
-                      onPressed: () {
-                        setState(() {
-                          _emailEditingController.clear();
-                          _passwordEditingController.clear();
-                          _userNameController.clear();
-                          isReg = !isReg;
-                        });
-                      },
-                      child: isReg
-                          ? Text(
-                              TextManger.instance.loginRedirect,
-                              style: textTheme.headlineSmall
-                                  ?.copyWith(fontWeight: FontWeight.w700),
-                            )
-                          : Text(
-                              TextManger.instance.registerRedirect,
-                              style: textTheme.headlineSmall
-                                  ?.copyWith(fontWeight: FontWeight.w700),
-                            )),
-                )
+                  child: Column(
+                    children: [
+                      TextButton(
+                          onPressed: () {
+                            setState(() {
+                              _emailEditingController.clear();
+                              _passwordEditingController.clear();
+                              _userNameController.clear();
+                              isReg = !isReg;
+                            });
+                          },
+                          child: isReg
+                              ? Text(
+                                  TextManger.instance.loginRedirect,
+                                  style: textTheme.headlineSmall
+                                      ?.copyWith(fontWeight: FontWeight.w700),
+                                )
+                              : Text(
+                                  TextManger.instance.registerRedirect,
+                                  style: textTheme.headlineSmall
+                                      ?.copyWith(fontWeight: FontWeight.w700),
+                                )),
+                      if (!isReg)
+                        TextButton(
+                            onPressed: () {
+                              Get.toNamed(Routes.resetPasswordScreen);
+                            },
+                            child: Text(
+                              "forgot password?",
+                              style: Theme.of(context).textTheme.labelLarge,
+                            ))
+                    ],
+                  ),
+                ),
               ],
             ));
       },
