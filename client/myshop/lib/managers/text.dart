@@ -27,6 +27,8 @@ mixin AuthText {
   final String verifyOtp = 'Verify your Otp';
   final String otpSendEmail = 'Otp has been send to';
   final String otpExpireMessage = 'Otp will expire in 2 minutes';
+
+  final String passwordChangedSucess = 'password changed successfully';
 }
 
 mixin AppStorageText {

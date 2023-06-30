@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myshop/controllers/authentication.dart';
 import 'package:myshop/data/models/authentication%20data/base.dart';
 
 import 'package:myshop/managers/text.dart';
@@ -50,7 +52,20 @@ class OtpVerificationScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-           const OtpVerificationBoxContainer(),
+            Consumer(
+              builder: (context, ref, child) {
+                final isLoading = ref.watch(
+                    authControllerProvider.select((value) => value.isLoading));
+                return isLoading
+                    ?const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : OtpVerificationBoxContainer(
+                        baseAuthenticationDataModel:
+                            baseAuthenticationDataModel,
+                      );
+              },
+            )
           ],
         ),
       ),

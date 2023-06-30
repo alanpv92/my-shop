@@ -5,13 +5,17 @@ import 'package:get/route_manager.dart';
 import 'package:myshop/data/models/authentication%20data/base.dart';
 
 import 'package:myshop/data/models/authentication%20data/login.dart';
+import 'package:myshop/data/models/authentication%20data/otp_verification.dart';
 import 'package:myshop/data/models/authentication%20data/registration.dart';
 import 'package:myshop/data/models/storage/user.dart';
+
+import 'package:myshop/managers/text.dart';
 import 'package:myshop/services/authentication/app.dart';
 import 'package:myshop/services/storage/user.dart';
 import 'package:myshop/ui/screen/authentication/otp_screen.dart';
 
 import 'package:myshop/utilities/error_toast.dart';
+import 'package:myshop/utilities/sucess_toast.dart';
 
 final authControllerProvider =
     StateNotifierProvider<AuthenticationNotifer, AuthenticationState>(
@@ -113,18 +117,35 @@ class AuthenticationNotifer extends StateNotifier<AuthenticationState> {
           baseAuthenticationDataModel}) async {
     state = state.copyWith(isAuthenticated: false, isLoading: true);
     final requestOtpResult = await _appAuthenticationService.requestOtp(
-      baseAuthenticationDataModel: baseAuthenticationDataModel
-    );
+        baseAuthenticationDataModel: baseAuthenticationDataModel);
     requestOtpResult.fold((l) {
       ErrorToast(l.message).showError();
-      state = state.copyWith(isLoading: false);
+      state = state.copyWith(isLoading: false, isAuthenticated: false);
     }, (r) {
-      state = state.copyWith(isLoading: false);
-      Get.to(OtpVerificationScreen(
-        baseAuthenticationDataModel: baseAuthenticationDataModel,
-      ));
+      state = state.copyWith(isLoading: false, isAuthenticated: false);
+      Get.to(() => OtpVerificationScreen(
+            baseAuthenticationDataModel: baseAuthenticationDataModel,
+          ));
     });
   }
 
+  Future verifyOtp({required OtpVerificationModel otpVerificationModel}) async {
+    state = state.copyWith(isLoading: true, isAuthenticated: false);
+    log(otpVerificationModel.toMap().toString());
+    final response = await _appAuthenticationService.verifyOtp(
+        otpVerificationModel: otpVerificationModel);
+    response.fold((l) {
+      ErrorToast(l.message).showError();
+      state = state.copyWith(isLoading: false, isAuthenticated: false);
+    }, (r) async {
+      SucessToast(TextManger.instance.passwordChangedSucess).showSucess();
 
+      Get.back();
+      Get.back();
+
+      await loginUser(LoginAuthenticationDataModel(
+          email: otpVerificationModel.email,
+          password: otpVerificationModel.password));
+    });
+  }
 }

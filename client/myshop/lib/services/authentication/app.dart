@@ -6,6 +6,7 @@ import 'package:myshop/data/exceptions/network.dart';
 import 'package:myshop/data/interfaces/authentication/app.dart';
 import 'package:myshop/data/models/authentication%20data/base.dart';
 import 'package:myshop/data/models/authentication%20data/login.dart';
+import 'package:myshop/data/models/authentication%20data/otp_verification.dart';
 import 'package:myshop/data/models/authentication%20data/registration.dart';
 import 'package:myshop/data/models/user.dart';
 import 'package:myshop/managers/api.dart';
@@ -66,11 +67,24 @@ class AppAuthenticationService implements AppAuthenticationInterface {
   }
 
   @override
-  Future<AppPasswordResetResponse> requestOtp({required BaseAuthenticationDataModel baseAuthenticationDataModel}) async {
-    final response =
-        await _appNetworkService.post(path: ApiPath.authRequestOtpPath,data:baseAuthenticationDataModel.getEmailMap() );
+  Future<AppPasswordResetResponse> requestOtp(
+      {required BaseAuthenticationDataModel
+          baseAuthenticationDataModel}) async {
+    final response = await _appNetworkService.post(
+        path: ApiPath.authRequestOtpPath,
+        data: baseAuthenticationDataModel.getEmailMap());
     return response.fold((l) {
       return left(AppNetworkException(message: l.message, statusCode: 500));
+    }, (r) => right(true));
+  }
+
+  @override
+  Future<AppPasswordResetResponse> verifyOtp(
+      {required OtpVerificationModel otpVerificationModel}) async {
+    final response = await _appNetworkService.post(
+        path: ApiPath.authVerifyOtpPath, data: otpVerificationModel.toMap());
+    return response.fold((l) {
+      return left(l);
     }, (r) => right(true));
   }
 }

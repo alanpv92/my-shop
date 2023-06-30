@@ -47,7 +47,7 @@ export class AuthService {
       if (isUserPresent) {
         throw new HttpException('user already registred', 400);
       }
-
+      
       const hashedPassword = await this.hashData(userData.password);
 
       const userModel = this.userRepo.create({
@@ -82,6 +82,7 @@ export class AuthService {
       if (!user) {
         throw new HttpException('user has not yet registred', 400);
       }
+      
       const isPasswordOk =await bcrypt.compare(
         userData.password as string,
         user.passwordHash as string,
@@ -154,8 +155,7 @@ export class AuthService {
     });
 
     setTimeout(async () => {
-      user.otp = null;
-      await this.userRepo.save(user);
+   await this.userRepo.update({id:Equal(user.id)},{otp:null});
     }, 60000*2);
 
     return {
@@ -183,8 +183,10 @@ export class AuthService {
         user.otp as string,
       );
       if (isOtpVaild) {
+
         const hashedPassword = await this.hashData(data.newPassword);
         user.passwordHash = hashedPassword;
+        user.otp=null;
         await this.userRepo.save(user);
         return {
           status: 'sucess',

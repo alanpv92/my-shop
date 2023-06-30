@@ -10,4 +10,5 @@ class ApiPath {
   static String authLoginPath = 'auth/login';
   static String authRefreshTokenPath = 'auth/refresh';
   static String authRequestOtpPath = 'auth//reset';
+  static String authVerifyOtpPath = 'auth/verify-password-otp';
 }
