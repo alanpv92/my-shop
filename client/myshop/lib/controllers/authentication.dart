@@ -57,6 +57,7 @@ class AuthenticationNotifer extends StateNotifier<AuthenticationState> {
   Future loginUser(
       LoginAuthenticationDataModel loginAuthenticationDataModel) async {
     state = state.copyWith(isLoading: true);
+
     final authResponse = await _appAuthenticationService.loginUser(
         loginAuthenticationDataModel: loginAuthenticationDataModel);
     await authResponse.fold((l) {

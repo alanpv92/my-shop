@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myshop/data/models/custom_form.dart';
+import 'package:myshop/ui/widgets/animated/animated_button.dart';
 import 'package:myshop/ui/widgets/common/custom%20form/custom_text_form_field.dart';
 
 class CustomForm extends StatelessWidget {
@@ -11,7 +12,8 @@ class CustomForm extends StatelessWidget {
       {super.key,
       required this.formData,
       required this.buttonText,
-      this.formAction,this.isLoading=false});
+      this.formAction,
+      this.isLoading = false});
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -33,25 +35,20 @@ class CustomForm extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-         isLoading?const Center(child: CircularProgressIndicator(),) : SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10))),
-                  onPressed: () {
-                    if (formAction != null &&
-                        _formKey.currentState!.validate()) {
-                      formAction!();
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      buttonText,
-                      style: Theme.of(context).textTheme.labelMedium,
-                    ),
-                  )))
+          isLoading
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : SizedBox(
+                  width: double.infinity,
+                  child: AnimatedButton(
+                      buttonText: buttonText,
+                      action: () {
+                        if (formAction != null &&
+                            _formKey.currentState!.validate()) {
+                          formAction!();
+                        }
+                      })),
         ],
       ),
     );
