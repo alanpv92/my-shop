@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       navigatorKey: NavigatorService.instance.navigatorKey,
       onGenerateRoute: NavigatorService.instance.generateRoutes,
+      debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.system,
       theme: TTheme.light,
       darkTheme: TTheme.dark,
