@@ -1,5 +1,3 @@
-
-
 import 'package:customer/common_export.dart';
 
 class NavigatorService {
@@ -25,12 +23,12 @@ class NavigatorService {
   }
 
   Future<void> pop<T extends Object?>([T? result]) async {
-    Completer<void> completer = Completer<void>();
+    // Completer<void> completer = Completer<void>();
 
     navigatorKey.currentState?.pop(result);
-    completer.complete();
+    // completer.complete();
 
-    return completer.future;
+    // return completer.future;
   }
 
   bool canPop() {
@@ -53,7 +51,7 @@ class NavigatorService {
   }
 
   Route<dynamic> generateRoutes(RouteSettings settings) {
-    if (settings.name == Routes.onboarding.routePath|| settings.name=='/') {
+    if (settings.name == Routes.onboarding.routePath || settings.name == '/') {
       return MaterialPageRoute(
         builder: (context) => const OboardingScreen(),
       );
