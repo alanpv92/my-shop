@@ -1,5 +1,6 @@
 import 'package:customer/common_export.dart';
 import 'package:customer/constants/sizes.dart';
+import 'package:customer/constants/strings.dart';
 
 class OboardingScreen extends StatelessWidget {
   const OboardingScreen({super.key});
@@ -14,33 +15,100 @@ class OboardingScreen extends StatelessWidget {
           padding: EdgeInsets.all(TPadding.md),
           child: Column(
             children: [
+              VGap(TGaps.xxl),
               Lottie.asset(TAssets.onboarding1LottieAnimation,
-                  fit: BoxFit.contain),
+                  fit: BoxFit.contain,
+                  
+                  ),
               Expanded(
                   child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(
-                    "Choose from a variety of products",
-                    style: theme.textTheme.headlineMedium,
+                  Column(
+                    children: [
+                      Text(
+                        TStrings.onboarding1Tittle,
+                        style: theme.textTheme.headlineMedium,
+                      ),
+                      VGap(TGaps.md),
+                      Text(
+                        TStrings.onboarding1Desc,
+                        style: theme.textTheme.titleLarge,
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
-                  VGap(TGaps.md),
-                  Text(
-                    'Explore a comprehensive array of products, and elevate your choices from our diverse and appealing range of options, ensuring satisfaction in every selection with our wide variety of offerings.',
-                    style: theme.textTheme.bodyLarge,
-                    textAlign: TextAlign.center,
+                  // VGap(TGaps.md),
+                  BouncingElevatedButton(
+                    text: 'Next',
                   ),
-                  VGap(TGaps.md),
-                  SizedBox(
-                    width: double.infinity,
-                    child:
-                        ElevatedButton(onPressed: () {}, child: Text('Next')),
-                  )
+                  // SizedBox(
+                  //   width: double.infinity,
+                  //   child: ElevatedButton(
+                  //     onPressed: () {},
+                  //     child: Text('Next'),
+                  //   ),
+                  // )
                 ],
-              ))
+              )),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class BouncingElevatedButton extends StatefulWidget {
+  final String text;
+  final bool shouldBounce;
+  const BouncingElevatedButton({super.key,required this.text,this.shouldBounce=true});
+
+  @override
+  State<BouncingElevatedButton> createState() => _BouncingElevatedButtonState();
+}
+
+class _BouncingElevatedButtonState extends State<BouncingElevatedButton>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+  @override
+  void initState() {
+    _animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500));
+    _animation =
+        CurvedAnimation(parent: _animationController, curve: Curves.easeInOut);
+      if(widget.shouldBounce){
+
+      }  
+    if(widget.shouldBounce){
+         _animationController.forward();
+    _animationController.repeat(reverse: true);
+    }  
+
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _animationController,
+      builder: (context, child) {
+        return Transform.translate(
+          offset: Offset(0, -8 * _animation.value),
+          child: child,
+        );
+      },
+      child: SizedBox(
+        width: double.infinity,
+        child: ElevatedButton(onPressed: () {}, child: Text(widget.text)),
       ),
     );
   }

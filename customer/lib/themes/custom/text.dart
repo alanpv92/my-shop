@@ -7,15 +7,15 @@ class TTextTheme {
     headlineLarge: const TextStyle().copyWith(
         fontSize: 32.0, fontWeight: FontWeight.bold, color: TColors.black),
     headlineMedium: const TextStyle().copyWith(
-        fontSize: 20.0, fontWeight: FontWeight.w600, color: TColors.black),
+        fontSize: 20.0, fontWeight: FontWeight.bold, color: TColors.black),
     headlineSmall: const TextStyle().copyWith(
         fontSize: 18.0, fontWeight: FontWeight.w600, color: TColors.black),
     titleLarge: const TextStyle().copyWith(
-        fontSize: 16.0, fontWeight: FontWeight.w600, color: TColors.black),
+        fontSize: 18.0, fontWeight: FontWeight.w600, color: TColors.black),
     titleMedium: const TextStyle().copyWith(
-        fontSize: 16.0, fontWeight: FontWeight.w500, color: TColors.black),
+        fontSize: 18.0, fontWeight: FontWeight.w500, color: TColors.black),
     titleSmall: const TextStyle().copyWith(
-        fontSize: 16.0, fontWeight: FontWeight.w400, color: TColors.black),
+        fontSize: 18.0, fontWeight: FontWeight.w400, color: TColors.black),
     bodyLarge: const TextStyle().copyWith(
         fontSize: 14.0, fontWeight: FontWeight.w500, color: TColors.black),
     bodyMedium: const TextStyle().copyWith(
@@ -39,11 +39,11 @@ class TTextTheme {
     headlineSmall: const TextStyle().copyWith(
         fontSize: 18.0, fontWeight: FontWeight.w600, color: TColors.white),
     titleLarge: const TextStyle().copyWith(
-        fontSize: 16.0, fontWeight: FontWeight.w600, color: TColors.white),
+        fontSize: 18.0, fontWeight: FontWeight.w600, color: TColors.white),
     titleMedium: const TextStyle().copyWith(
-        fontSize: 16.0, fontWeight: FontWeight.w500, color: TColors.white),
+        fontSize: 18.0, fontWeight: FontWeight.w500, color: TColors.white),
     titleSmall: const TextStyle().copyWith(
-        fontSize: 16.0, fontWeight: FontWeight.w400, color: TColors.white),
+        fontSize: 18.0, fontWeight: FontWeight.w400, color: TColors.white),
     bodyLarge: const TextStyle().copyWith(
         fontSize: 14.0, fontWeight: FontWeight.w500, color: TColors.white),
     bodyMedium: const TextStyle().copyWith(

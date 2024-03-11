@@ -20,4 +20,5 @@ class TGaps {
   static double md = 16;
   static double lg = 24;
   static double xl = 32;
+  static double xxl = 62;
 }
