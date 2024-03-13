@@ -22,9 +22,10 @@ class _OboardingScreenState extends State<OboardingScreen> {
     if (currentIndex !=
         context.read<OnBoardingController>().assets.length - 1) {
       currentIndex++;
+      setState(() {});
+    } else {
+      NavigatorService.instance.pushReplacement(Routes.authentication);
     }
-
-    setState(() {});
   }
 
   @override
@@ -38,12 +39,13 @@ class _OboardingScreenState extends State<OboardingScreen> {
           child: Column(
             children: [
               VGap(TGaps.xxl),
-              Lottie.asset(onBoardingController.assets[currentIndex],
-                  fit: BoxFit.contain,
-                  height: TSize.h * 30,
-                  width: double.infinity,
-                  frameRate: FrameRate.max,
-                  ),
+              Lottie.asset(
+                onBoardingController.assets[currentIndex],
+                fit: BoxFit.contain,
+                height: TSize.h * 30,
+                width: double.infinity,
+                frameRate: FrameRate.max,
+              ),
               Expanded(
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

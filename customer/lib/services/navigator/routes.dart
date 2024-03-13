@@ -1,7 +1,4 @@
-
-
 import 'package:customer/common_export.dart';
-
 
 class NavigatorService {
   NavigatorService._();
@@ -57,15 +54,13 @@ class NavigatorService {
   }
 
   Route<dynamic> generateRoutes(RouteSettings settings) {
-
-    if (settings.name == Routes.onboarding.routePath) {
+    if (settings.name == Routes.onboarding.routePath || settings.name == '/') {
       return MaterialPageRoute(
         builder: (context) => const OboardingScreen(),
       );
     }
-    //temp
-     FlutterNativeSplash.remove();   
-    if (settings.name == Routes.onboarding.routePath || settings.name == '/') {
+
+    if (settings.name == Routes.authentication.routePath) {
       return MaterialPageRoute(
         builder: (context) => const AuthenticationScreen(),
       );
