@@ -6,7 +6,7 @@ class TStrings {
   static String onboarding1Desc =
       'Explore a comprehensive array of products, and elevate your choices from our diverse and appealing range of options, ensuring satisfaction in every selection with our wide variety of offerings.';
   static String onboarding2Desc =
-      """Swift and efficient delivery service ensures your order reaches you promptly, guaranteeing a seamless and speedy experience with our commitment to timely and reliable shipping.""";
+      """Swift and efficient delivery service ensures your order reaches you promptly,guaranteeing a seamless and speedy experience with our commitment to timely and reliable shipping.""";
   static String onboarding3Desc =
       """Effortless and swift, our shopping experience streamlines your journey with simplicity, ensuring convenience at every step, making your online exploration enjoyable and stress-free.""";
 

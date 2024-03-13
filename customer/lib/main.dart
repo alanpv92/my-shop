@@ -1,5 +1,3 @@
-
-
 import 'common_export.dart';
 
 void main(List<String> args) {
@@ -14,15 +12,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TSize.init(context);
-    return MultiProvider(providers: [
-      ChangeNotifierProvider(create: (context) => OnBoardingController(),)
-    ],child: MaterialApp(
-      navigatorKey: NavigatorService.instance.navigatorKey,
-      onGenerateRoute: NavigatorService.instance.generateRoutes,
-      debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.system,
-      theme: TTheme.light,
-      darkTheme: TTheme.dark,
-    ),);
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => OnBoardingController(),
+        )
+      ],
+      child: MaterialApp(
+        navigatorKey: NavigatorService.instance.navigatorKey,
+        onGenerateRoute: NavigatorService.instance.generateRoutes,
+        debugShowCheckedModeBanner: false,
+        themeMode: ThemeMode.system,
+        theme: TTheme.light,
+        darkTheme: TTheme.dark,
+      ),
+    );
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:customer/common_export.dart';
 
 class OboardingScreen extends StatefulWidget {
@@ -13,21 +11,24 @@ class _OboardingScreenState extends State<OboardingScreen> {
   late int currentIndex;
   @override
   void initState() {
-    currentIndex = 0;
+    currentIndex = 1;
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      FlutterNativeSplash.remove();
+    });
     super.initState();
   }
 
   changeIndex() {
-
-    if (currentIndex != context.read<OnBoardingController>().assets.length-1) {
+    if (currentIndex !=
+        context.read<OnBoardingController>().assets.length - 1) {
       currentIndex++;
     }
+
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    FlutterNativeSplash.remove();
     final theme = Theme.of(context);
     final onBoardingController = context.read<OnBoardingController>();
     return Scaffold(
@@ -40,21 +41,26 @@ class _OboardingScreenState extends State<OboardingScreen> {
               Lottie.asset(onBoardingController.assets[currentIndex],
                   fit: BoxFit.contain,
                   height: TSize.h * 30,
-                  width: double.infinity),
+                  width: double.infinity,
+                  frameRate: FrameRate.max,
+                  ),
               Expanded(
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(
                     children: [
-                      Text(
-                        onBoardingController.titles[currentIndex],
-                        style: theme.textTheme.headlineMedium,
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          onBoardingController.titles[currentIndex],
+                          style: theme.textTheme.headlineSmall,
+                        ),
                       ),
                       VGap(TGaps.md),
                       Text(
                         onBoardingController.descriptions[currentIndex],
-                        style: theme.textTheme.titleLarge,
+                        style: theme.textTheme.titleSmall,
                         textAlign: TextAlign.center,
                       ),
                     ],
