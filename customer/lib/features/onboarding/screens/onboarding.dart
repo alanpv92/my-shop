@@ -11,9 +11,11 @@ class _OboardingScreenState extends State<OboardingScreen> {
   late int currentIndex;
   @override
   void initState() {
-    currentIndex = 1;
+    currentIndex = 0;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      FlutterNativeSplash.remove();
+      Future.delayed(const Duration(seconds: 2)).then((value) {
+        FlutterNativeSplash.remove();
+      });
     });
     super.initState();
   }
@@ -40,6 +42,7 @@ class _OboardingScreenState extends State<OboardingScreen> {
             children: [
               VGap(TGaps.xxl),
               Lottie.asset(
+                backgroundLoading: true,
                 onBoardingController.assets[currentIndex],
                 fit: BoxFit.contain,
                 height: TSize.h * 30,
