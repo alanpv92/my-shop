@@ -11,7 +11,7 @@ class TElevatedButtonTheme {
         side:  BorderSide(color: TColors.primary),
         padding: const EdgeInsets.symmetric(vertical: 18),
         textStyle:  TextStyle(
-          fontSize: 16,
+          fontSize: 22,
           color: TColors.white,
           fontWeight: FontWeight.w600,
         ),
@@ -27,7 +27,7 @@ class TElevatedButtonTheme {
         side:  BorderSide(color: TColors.primary),
         padding: const EdgeInsets.symmetric(vertical: 18),
         textStyle:  TextStyle(
-          fontSize: 16,
+          fontSize: 22,
           color: TColors.white,
           fontWeight: FontWeight.w600,
         ),

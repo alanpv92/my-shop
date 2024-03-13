@@ -1,6 +1,4 @@
-import 'package:customer/services/navigator/routes.dart';
-import 'package:customer/themes/theme.dart';
-import 'package:customer/utils/size/size.dart';
+
 
 import 'common_export.dart';
 
@@ -16,13 +14,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TSize.init(context);
-    return MaterialApp(
+    return MultiProvider(providers: [
+      ChangeNotifierProvider(create: (context) => OnBoardingController(),)
+    ],child: MaterialApp(
       navigatorKey: NavigatorService.instance.navigatorKey,
       onGenerateRoute: NavigatorService.instance.generateRoutes,
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.system,
       theme: TTheme.light,
       darkTheme: TTheme.dark,
-    );
+    ),);
   }
 }
