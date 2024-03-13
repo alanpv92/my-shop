@@ -11,9 +11,11 @@ class _OboardingScreenState extends State<OboardingScreen> {
   late int currentIndex;
   @override
   void initState() {
-    currentIndex = 1;
+    currentIndex = 0;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      FlutterNativeSplash.remove();
+      Future.delayed(const Duration(seconds: 2)).then((value) {
+        FlutterNativeSplash.remove();
+      });
     });
     super.initState();
   }
@@ -22,9 +24,10 @@ class _OboardingScreenState extends State<OboardingScreen> {
     if (currentIndex !=
         context.read<OnBoardingController>().assets.length - 1) {
       currentIndex++;
+      setState(() {});
+    } else {
+      NavigatorService.instance.pushReplacement(Routes.authentication);
     }
-
-    setState(() {});
   }
 
   @override
@@ -38,12 +41,14 @@ class _OboardingScreenState extends State<OboardingScreen> {
           child: Column(
             children: [
               VGap(TGaps.xxl),
-              Lottie.asset(onBoardingController.assets[currentIndex],
-                  fit: BoxFit.contain,
-                  height: TSize.h * 30,
-                  width: double.infinity,
-                  frameRate: FrameRate.max,
-                  ),
+              Lottie.asset(
+                backgroundLoading: true,
+                onBoardingController.assets[currentIndex],
+                fit: BoxFit.contain,
+                height: TSize.h * 30,
+                width: double.infinity,
+                frameRate: FrameRate.max,
+              ),
               Expanded(
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

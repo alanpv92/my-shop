@@ -8,7 +8,10 @@ class NavigatorService {
   }
 
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-  final Map<Routes, String> routePaths = {Routes.onboarding: "/onboarding"};
+  final Map<Routes, String> routePaths = {
+    Routes.onboarding: "/onboarding",
+    Routes.authentication: "/authentication"
+  };
 
   String get initialRoute => Routes.onboarding.routePath;
 
@@ -54,6 +57,12 @@ class NavigatorService {
     if (settings.name == Routes.onboarding.routePath || settings.name == '/') {
       return MaterialPageRoute(
         builder: (context) => const OboardingScreen(),
+      );
+    }
+
+    if (settings.name == Routes.authentication.routePath) {
+      return MaterialPageRoute(
+        builder: (context) => const AuthenticationScreen(),
       );
     }
 

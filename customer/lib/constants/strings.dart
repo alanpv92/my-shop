@@ -11,4 +11,11 @@ class TStrings {
       """Effortless and swift, our shopping experience streamlines your journey with simplicity, ensuring convenience at every step, making your online exploration enjoyable and stress-free.""";
 
   static String kNext = 'Next';
+  static String authUserNameHint='User Name';
+  static String authUserEmailHint='Email';
+  static String authPasswordHint='Password';
+  static String authLoginBtn='Login';
+  static String authSignUpBtn='Register';
+  static String authLoginToggleBtn="Already Have An Account?";
+  static String authSignUpToggleBtn="Create An Account?"; 
 }
