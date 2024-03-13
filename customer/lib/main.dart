@@ -1,3 +1,4 @@
+
 import 'common_export.dart';
 
 void main(List<String> args) {
@@ -16,7 +17,10 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => OnBoardingController(),
-        )
+        ),
+            ChangeNotifierProvider(
+          create: (context) => AuthenticationController(),
+        ),
       ],
       child: MaterialApp(
         navigatorKey: NavigatorService.instance.navigatorKey,

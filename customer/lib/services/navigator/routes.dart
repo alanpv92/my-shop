@@ -1,4 +1,7 @@
+
+
 import 'package:customer/common_export.dart';
+
 
 class NavigatorService {
   NavigatorService._();
@@ -8,7 +11,10 @@ class NavigatorService {
   }
 
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-  final Map<Routes, String> routePaths = {Routes.onboarding: "/onboarding"};
+  final Map<Routes, String> routePaths = {
+    Routes.onboarding: "/onboarding",
+    Routes.authentication: "/authentication"
+  };
 
   String get initialRoute => Routes.onboarding.routePath;
 
@@ -51,9 +57,17 @@ class NavigatorService {
   }
 
   Route<dynamic> generateRoutes(RouteSettings settings) {
-    if (settings.name == Routes.onboarding.routePath || settings.name == '/') {
+
+    if (settings.name == Routes.onboarding.routePath) {
       return MaterialPageRoute(
         builder: (context) => const OboardingScreen(),
+      );
+    }
+    //temp
+     FlutterNativeSplash.remove();   
+    if (settings.name == Routes.onboarding.routePath || settings.name == '/') {
+      return MaterialPageRoute(
+        builder: (context) => const AuthenticationScreen(),
       );
     }
 

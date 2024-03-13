@@ -1,1 +1,3 @@
-enum Routes { onboarding }
+enum Routes { onboarding,authentication }
+
+enum AuthModes {login,signUp}

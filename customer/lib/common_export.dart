@@ -1,3 +1,7 @@
+export 'package:customer/features/authentication/ui/widgets/authentication_box.dart';
+export 'package:customer/features/authentication/ui/widgets/authentication_background.dart';
+export 'package:customer/common/widgets/buttons/expanding.dart';
+export 'package:customer/features/authentication/ui/widgets/authentication_status_change_button.dart';
 export 'package:customer/common/widgets/buttons/bouncing.dart';
 export 'package:flutter/material.dart';
 export 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -18,3 +22,7 @@ export 'package:customer/services/navigator/routes.dart';
 export 'package:customer/themes/theme.dart';
 export 'package:provider/provider.dart';
 export 'package:customer/utils/size/size.dart';
+export 'package:customer/features/authentication/ui/screens/authentication.dart';
+export 'package:customer/features/authentication/controllers/authentication.dart';
+
+
