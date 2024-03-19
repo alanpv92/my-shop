@@ -1,9 +1,13 @@
+import 'package:customer/firebase_options.dart';
 
 import 'common_export.dart';
 
-void main(List<String> args) {
+void main(List<String> args) async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  await DotEnvService.instance.init();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   runApp(const MyApp());
 }
 
@@ -18,7 +22,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => OnBoardingController(),
         ),
-            ChangeNotifierProvider(
+        ChangeNotifierProvider(
           create: (context) => AuthenticationController(),
         ),
       ],

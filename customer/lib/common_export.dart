@@ -1,3 +1,5 @@
+export 'package:customer/services/storage/dot_env.dart';
+
 export 'package:customer/features/authentication/ui/widgets/authentication_box.dart';
 export 'package:customer/features/authentication/ui/widgets/authentication_background.dart';
 export 'package:customer/common/widgets/buttons/expanding.dart';
@@ -24,5 +26,6 @@ export 'package:provider/provider.dart';
 export 'package:customer/utils/size/size.dart';
 export 'package:customer/features/authentication/ui/screens/authentication.dart';
 export 'package:customer/features/authentication/controllers/authentication.dart';
-
+export 'package:flutter_dotenv/flutter_dotenv.dart';
+export 'package:firebase_core/firebase_core.dart';
 
