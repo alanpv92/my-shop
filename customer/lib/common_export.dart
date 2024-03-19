@@ -1,5 +1,5 @@
 export 'package:customer/services/storage/dot_env.dart';
-
+export 'package:customer/firebase_options.dart';
 export 'package:customer/features/authentication/ui/widgets/authentication_box.dart';
 export 'package:customer/features/authentication/ui/widgets/authentication_background.dart';
 export 'package:customer/common/widgets/buttons/expanding.dart';
@@ -28,4 +28,8 @@ export 'package:customer/features/authentication/ui/screens/authentication.dart'
 export 'package:customer/features/authentication/controllers/authentication.dart';
 export 'package:flutter_dotenv/flutter_dotenv.dart';
 export 'package:firebase_core/firebase_core.dart';
+export 'package:firebase_crashlytics/firebase_crashlytics.dart';
+export 'package:flutter/foundation.dart';
+export 'package:customer/services/firebase/crashlytics.dart';
+export 'dart:developer' show log;
 
