@@ -73,7 +73,7 @@ class _OboardingScreenState extends State<OboardingScreen> {
                   BouncingElevatedButton(
                     text: TStrings.kNext,
                     onPressed: () {
-                      throw Exception();
+                      // throw Exception();
                       changeIndex();
                     },
                   ),
