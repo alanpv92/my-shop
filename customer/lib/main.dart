@@ -1,4 +1,6 @@
-import 'package:customer/firebase_options.dart';
+
+
+import 'package:customer/services/firebase/firebase.dart';
 
 import 'common_export.dart';
 
@@ -6,7 +8,7 @@ void main(List<String> args) async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await DotEnvService.instance.init();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await FirebaseService.instance.init();
 
   runApp(const MyApp());
 }
